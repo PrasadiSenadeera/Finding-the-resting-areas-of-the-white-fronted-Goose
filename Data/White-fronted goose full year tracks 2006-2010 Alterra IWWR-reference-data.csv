@@ -1,0 +1,8 @@
+tag-id,animal-id,animal-taxon,deploy-on-date,deploy-off-date,animal-life-stage,animal-sex,animal-taxon-detail,attachment-type,deployment-id,manipulation-type,tag-manufacturer-name,tag-mass,tag-model,tag-readout-method
+72413,72413,Anser albifrons,2007-01-11 00:00:00.000,,adult,m,albifrons,harness,72413,none,Microwave Telemetry,45.0,Solar GPS 100,satellite
+72417,72417,Anser albifrons,2007-01-21 00:00:00.000,,adult,m,albifrons,harness,72417,none,Microwave Telemetry,45.0,Solar GPS 100,satellite
+73053,73053,Anser albifrons,2007-01-31 00:00:00.000,,adult,m,albifrons,harness,73053,none,Microwave Telemetry,45.0,Solar GPS 100,satellite
+72364,72364,Anser albifrons,2007-01-31 00:00:00.000,,adult,m,albifrons,harness,72364,none,Microwave Telemetry,45.0,Solar GPS 100,satellite
+73054,73054,Anser albifrons,2007-02-10 00:00:00.000,,adult,m,albifrons,harness,73054,none,Microwave Telemetry,45.0,Solar GPS 100,satellite
+79694,79694,Anser albifrons,2008-02-09 12:00:00.000,,adult,m,albifrons,harness,79694,none,Microwave Telemetry,45.0,Solar GPS 100,satellite
+79698,79698,Anser albifrons,2008-02-19 00:00:00.000,,adult,m,albifrons,harness,79698,none,Microwave Telemetry,45.0,Solar GPS 100,satellite
