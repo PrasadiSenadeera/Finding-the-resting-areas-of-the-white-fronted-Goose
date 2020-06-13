@@ -5,10 +5,10 @@
 ### First load your shape file mannually to QGIS interface.
 
 ### This code includes,
-  access the active layer
-  add new colums to store time and Date
-  Initiate a variable to hold the date and time values extracted from shape file and store extracted variables to a dictionary
-  Use the created dictionary to update the field for all features
+  * access the active layer
+  * add new colums to store time and Date
+  * Initiate a variable to hold the date and time values extracted from shape file and store extracted variables to a dictionary
+  * Use the created dictionary to update the field for all features
 
 
 
