@@ -4,7 +4,7 @@ import qgis.utils
 import numpy as np
 
 # load the point shapefile manually!
-
+#############################################################Create two new colums to store Time and Date ############################################################################
 # access the active layer
 point_layer = iface.activeLayer()
 if not point_layer:
@@ -59,7 +59,7 @@ point_layer.dataProvider().changeAttributeValues(updates_date)
 # Update to propagate the changes  
 point_layer.updateFields()
 
-###############################Calculate the distance between two points###############################
+#####################################################Calculate the distance between two points###################################################
 
 #Store route identification codes in to a list
 L_tracks=['"tag_ident"=72413','"tag_ident"=72417','"tag_ident"=73053','"tag_ident"=72364',\
