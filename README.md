@@ -1,8 +1,8 @@
-## Implementing a python based algorithm to investigate the behavior of White-fronted geese during their migration routes
+## Migratory patterns of white-cheeked geese in northern Europe
 
 ## Please update this if you change to the code.
 
-### First load your shape file mannually to QGIS interface
+### To use this code, manually load the shapefile into the QGIS interface
 
 ### This code includes,
 **13.06.2020 - Create two new fields with date and time (Prasadi)**
