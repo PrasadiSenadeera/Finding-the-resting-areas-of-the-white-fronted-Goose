@@ -5,7 +5,7 @@
 ### First load your shape file mannually to QGIS interface
 
 ### This code includes,
-**13.06.2020 - created two new fields with date and time (Prasadi)**
+**13.06.2020 - Create two new fields with date and time (Prasadi)**
   * Access the active layer
   * Add new two colums to store time and Date
   * Initiate a variable to hold the date and time values extracted from shape file and store extracted variables to a dictionary
