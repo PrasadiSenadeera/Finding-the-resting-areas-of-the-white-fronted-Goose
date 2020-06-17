@@ -1,5 +1,6 @@
-import os, ogr, osr, datetime, math, gdal
+import os, ogr, osr, datetime, math, gdal, time
 from qgis.core import *
+from qgis.gui import *
 import qgis.utils
 import numpy as np
 
@@ -11,18 +12,14 @@ if not point_layer:
     print("Shape file failed to load!")
 else: print("Shape file loaded!")
 
+#Add new colums
 
-#Add new colums to store time and Date
-caps = point_layer.dataProvider().capabilities()
-if caps & QgsVectorDataProvider.AddAttributes:
-    # We require a String field
-    res = point_layer.dataProvider().addAttributes(
-        [QgsField("Ob_Time", QVariant.String),\
-        QgsField("Ob_Date", QVariant.Date),\
-        QgsField("Distance", QVariant.Double)])
-        
+def newColumn (layer,FieldName,DataType):
+    caps = layer.dataProvider().capabilities()
+    if caps & QgsVectorDataProvider.AddAttributes:
+        res = point_layer.dataProvider().addAttributes([QgsField(FieldName,DataType)])
 # Update to propagate the changes  
-point_layer.updateFields()
+    point_layer.updateFields()
 
 
 # Get the index of the new field
@@ -34,6 +31,11 @@ def getIndex(layer,Field_name):
             break
         index += 1
     return index
+
+#Create field for store Date
+newColumn (point_layer,"Ob_Time", QVariant.String)
+#Create field for store Time
+newColumn (point_layer,"Ob_Date", QVariant.Date)
 
 
 # Initiate a variable to hold the date and time values extracted from shape file
@@ -65,8 +67,11 @@ point_layer.updateFields()
 L_tracks=['"tag_ident"=72413','"tag_ident"=72417','"tag_ident"=73053','"tag_ident"=72364',\
 '"tag_ident"=73054','"tag_ident"=79694','"tag_ident"=79698']
 
-#create empty lists to save UTM coordinates, track number, feature ID
 
+#Create field for store Distance
+newColumn (point_layer,"Distance", QVariant.Double)
+
+#create empty lists to save UTM coordinates, track number, feature ID
 
 #Select seperate locations(points) of each route and save their properties in to lists
 for m in range(0,len(L_tracks)):
@@ -122,18 +127,88 @@ for m in range(0,len(L_tracks)):
     L_ID.clear()
     L_distance.clear()
 
-###############################***********Calculate time difference************########################
+#############################################Calculate time difference########################################
 
+#Create field to store TimeDifference
+newColumn (point_layer,"TimeDiff", QVariant.Double)
 
+#Create a list to store time values
+for m in range(0,len(L_tracks)):
+    L_Datetime=[]
+    L_ID=[]
+    L_TimeDiff=[]
 
+    point_layer.selectByExpression(L_tracks[m], QgsVectorLayer.SetSelection)
+    selection = point_layer.selectedFeatures()
+    for feature in selection:
+        Datetime=feature['timestamp']
+        L_Datetime.append(Datetime)
+        L_ID.append(feature.id())
+    
 
+    #Calculate time between a point and its previous point
+    for j in range (0,(len(L_ID))):
+        if j==0:
+            TimeDiff=0
+            L_TimeDiff.append(TimeDiff)
+        else:
+            To_time=datetime.datetime.strptime(L_Datetime[j],'%Y-%m-%d %H:%M:%S')
+            From_time=datetime.datetime.strptime(L_Datetime[j-1],'%Y-%m-%d %H:%M:%S')
+            TimeDiff=To_time-From_time
 
+            value=TimeDiff.total_seconds()
+            L_TimeDiff.append(value)
 
+    # for check the values 
 
+    #print(L_Datetime[0],L_TimeDiff[0])
+    #print(L_Datetime[1],L_TimeDiff[1])
+    #print(L_Datetime[2],L_TimeDiff[2])
+ 
+    
+    #Update time difference to a new field
+ 
+    updates_timeDiff={}
+    for i in range (0,(len(L_TimeDiff))):
+        # Get the distance value from the gpx
+        TimeDiff=L_TimeDiff[i]
+        index=L_ID[i]
 
+        # Update the empty fields in the shapefile
+        indexTimeDiff=getIndex(point_layer,'TimeDiff')
+        updates_timeDiff[index] = {indexTimeDiff:TimeDiff}
 
+    point_layer.dataProvider().changeAttributeValues(updates_timeDiff)
+    # Update to propagate the changes  
+    point_layer.updateFields()    
+    point_layer.removeSelection()
 
+    L_Datetime.clear()
+    L_ID.clear()
+    L_TimeDiff.clear()
+    
+##############################################Calculate speed##################################################
 
+#Create new field to store speed
+newColumn (point_layer,"Speed", QVariant.Double)
 
+updates_speed={}
+for feat in point_layer.getFeatures():
+    a=feat['Distance']
+    b=feat['TimeDiff']
+    
+    if (a==0 or b==0) :
+        speed=0
+    else:
+        speed=a/b/1000*3600
+    index=feat.id()
+
+    indexSpeed=getIndex(point_layer,'Speed')
+    updates_speed[index] = {indexSpeed:speed}
+
+point_layer.dataProvider().changeAttributeValues(updates_speed)
+point_layer.updateFields()    
+point_layer.removeSelection()
+    
 
 print('Done')
