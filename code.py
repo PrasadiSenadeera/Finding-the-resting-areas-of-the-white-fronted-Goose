@@ -18,7 +18,7 @@ if caps & QgsVectorDataProvider.AddAttributes:
     # We require a String field
     res = point_layer.dataProvider().addAttributes(
         [QgsField("Ob_Time", QVariant.String),\
-        QgsField("Ob_Date", QVariant.String),\
+        QgsField("Ob_Date", QVariant.Date),\
         QgsField("Distance", QVariant.Double)])
         
 # Update to propagate the changes  
@@ -96,9 +96,9 @@ for m in range(0,len(L_tracks)):
             L_distance.append(distance)
 
     # for check the values 
-    print(L_north[0],L_east[0],L_ID[0],L_distance[0])
-    print(L_north[1],L_east[1],L_ID[1],L_distance[1])
-    print(L_north[2],L_east[2],L_ID[2],L_distance[2])
+    #print(L_north[0],L_east[0],L_ID[0],L_distance[0])
+    #print(L_north[1],L_east[1],L_ID[1],L_distance[1])
+    #print(L_north[2],L_east[2],L_ID[2],L_distance[2])
 
     #Update distances to a new field
 
@@ -121,5 +121,19 @@ for m in range(0,len(L_tracks)):
     L_east.clear()
     L_ID.clear()
     L_distance.clear()
+
+###############################***********Calculate time difference************########################
+
+
+
+
+
+
+
+
+
+
+
+
 
 print('Done')
