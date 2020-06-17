@@ -20,7 +20,8 @@
  * Update to propagate the changes
  * Clear lists before next iteration
  
-**16.06.2020-Calculate speed ( feel free to substitude with your own code) 
+**16.06.2020-Calculate speed ( feel free to substitude with your own code)**
+ * Calculate time difference and speed
  
 
 
