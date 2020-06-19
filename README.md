@@ -1,4 +1,4 @@
-## Migratory patterns of white-cheeked geese in northern Europe
+## Migratory patterns of white-fronted goose in northern Europe
 
 ## Please update this if you change to the code.
 
