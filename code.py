@@ -18,7 +18,7 @@ def newColumn (layer,FieldName,DataType):
     caps = layer.dataProvider().capabilities()
     if caps & QgsVectorDataProvider.AddAttributes:
         res = point_layer.dataProvider().addAttributes([QgsField(FieldName,DataType)])
-# Update to propagate the changes  
+# Update to propagate the changes
     point_layer.updateFields()
 
 
@@ -32,11 +32,15 @@ def getIndex(layer,Field_name):
         index += 1
     return index
 
-#Create field for store Date
-newColumn (point_layer,"Ob_Time", QVariant.String)
-#Create field for store Time
-newColumn (point_layer,"Ob_Date", QVariant.Date)
+# Check if field already exists
+if  point_layer.fields().indexFromName("Ob_Time") == -1:
+    #Create field for store Date
+    newColumn (point_layer,"Ob_Time", QVariant.String)
 
+# Check if field already exists
+if point_layer.fields().indexFromName("Ob_Date") == -1:
+    #Create field for store Date
+    newColumn (point_layer,"Ob_Date", QVariant.String)
 
 # Initiate a variable to hold the date and time values extracted from shape file
 updates_time = {}
@@ -58,7 +62,7 @@ for feat in point_layer.getFeatures():
 # Use the created dictionary to update the field for all features
 point_layer.dataProvider().changeAttributeValues(updates_time)
 point_layer.dataProvider().changeAttributeValues(updates_date)
-# Update to propagate the changes  
+# Update to propagate the changes
 point_layer.updateFields()
 
 #####################################################Calculate the distance between two points###################################################
@@ -68,8 +72,10 @@ L_tracks=['"tag_ident"=72413','"tag_ident"=72417','"tag_ident"=73053','"tag_iden
 '"tag_ident"=73054','"tag_ident"=79694','"tag_ident"=79698']
 
 
-#Create field for store Distance
-newColumn (point_layer,"Distance", QVariant.Double)
+# Check if field already exists
+if point_layer.fields().indexFromName("Distance") == -1:
+    #Create field for store Distance
+    newColumn (point_layer,"Distance", QVariant.Double)
 
 #create empty lists to save UTM coordinates, track number, feature ID
 
@@ -100,7 +106,7 @@ for m in range(0,len(L_tracks)):
             distance=math.sqrt(D_north+D_East)
             L_distance.append(distance)
 
-    # for check the values 
+    # for check the values
     #print(L_north[0],L_east[0],L_ID[0],L_distance[0])
     #print(L_north[1],L_east[1],L_ID[1],L_distance[1])
     #print(L_north[2],L_east[2],L_ID[2],L_distance[2])
@@ -118,8 +124,8 @@ for m in range(0,len(L_tracks)):
         updates_distance[index] = {indexDi:distance}
 
     point_layer.dataProvider().changeAttributeValues(updates_distance)
-    # Update to propagate the changes  
-    point_layer.updateFields()    
+    # Update to propagate the changes
+    point_layer.updateFields()
     point_layer.removeSelection()
 
     L_north.clear()
@@ -129,8 +135,10 @@ for m in range(0,len(L_tracks)):
 
 #############################################Calculate time difference########################################
 
-#Create field to store TimeDifference
-newColumn (point_layer,"TimeDiff", QVariant.Double)
+# Check if field already exists
+if point_layer.fields().indexFromName("TimeDiff") == -1:
+    #Create field to store TimeDifference
+    newColumn (point_layer,"TimeDiff", QVariant.Double)
 
 #Create a list to store time values
 for m in range(0,len(L_tracks)):
@@ -144,7 +152,7 @@ for m in range(0,len(L_tracks)):
         Datetime=feature['timestamp']
         L_Datetime.append(Datetime)
         L_ID.append(feature.id())
-    
+
 
     #Calculate time between a point and its previous point
     for j in range (0,(len(L_ID))):
@@ -159,15 +167,15 @@ for m in range(0,len(L_tracks)):
             value=TimeDiff.total_seconds()
             L_TimeDiff.append(value)
 
-    # for check the values 
+    # for check the values
 
     #print(L_Datetime[0],L_TimeDiff[0])
     #print(L_Datetime[1],L_TimeDiff[1])
     #print(L_Datetime[2],L_TimeDiff[2])
- 
-    
+
+
     #Update time difference to a new field
- 
+
     updates_timeDiff={}
     for i in range (0,(len(L_TimeDiff))):
         # Get the distance value from the gpx
@@ -179,24 +187,26 @@ for m in range(0,len(L_tracks)):
         updates_timeDiff[index] = {indexTimeDiff:TimeDiff}
 
     point_layer.dataProvider().changeAttributeValues(updates_timeDiff)
-    # Update to propagate the changes  
-    point_layer.updateFields()    
+    # Update to propagate the changes
+    point_layer.updateFields()
     point_layer.removeSelection()
 
     L_Datetime.clear()
     L_ID.clear()
     L_TimeDiff.clear()
-    
+
 ##############################################Calculate speed##################################################
 
-#Create new field to store speed
-newColumn (point_layer,"Speed", QVariant.Double)
+# Check if field already exists
+if point_layer.fields().indexFromName("Speed") == -1:
+    #Create new field to store speed
+    newColumn (point_layer,"Speed", QVariant.Double)
 
 updates_speed={}
 for feat in point_layer.getFeatures():
     a=feat['Distance']
     b=feat['TimeDiff']
-    
+
     if (a==0 or b==0) :
         speed=0
     else:
@@ -207,8 +217,8 @@ for feat in point_layer.getFeatures():
     updates_speed[index] = {indexSpeed:speed}
 
 point_layer.dataProvider().changeAttributeValues(updates_speed)
-point_layer.updateFields()    
+point_layer.updateFields()
 point_layer.removeSelection()
-    
+
 
 print('Done')
