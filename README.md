@@ -23,6 +23,8 @@
 **16.06.2020-Calculate speed ( Feel free to use your own code)**
  * Calculate time difference and speed
  
+**19.06.2020-Minor change (Jannis)**
+ * Check existence of fields before adding new fields
 
 
 
