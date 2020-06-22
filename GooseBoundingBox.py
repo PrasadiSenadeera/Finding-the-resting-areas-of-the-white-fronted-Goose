@@ -1,93 +1,93 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[10]:
 
 
 pip install pyshp
 
 
-# In[2]:
+# In[11]:
 
 
 import shapefile
 
 
-# In[6]:
+# In[12]:
 
 
 sf = shapefile.Reader("/Users/ilka/Documents/Uni/Master/PIG/Daten/goose/White-fronted goose full year tracks 2006-2010 Alterra IWWR/lines.shp")
 
 
-# In[8]:
+# In[13]:
 
 
 with shapefile.Reader("/Users/ilka/Documents/Uni/Master/PIG/Daten/goose/White-fronted goose full year tracks 2006-2010 Alterra IWWR/lines.shp") as shp:
     print(shp)
-
-
-# In[9]:
-
-
-shapes = sf.shapes()
-
-
-# In[10]:
-
-
-len(shapes)
-
-
-# In[11]:
-
-
-print(shapes)
-
-
-# In[13]:
-
-
-s = sf.shape(3)
 
 
 # In[14]:
 
 
-print(s)
+shapes = sf.shapes()
 
 
 # In[15]:
 
 
-#/Users/ilka/Documents/Uni/Master/PIG/Daten/goose/White-fronted goose full year tracks 2006-2010 Alterra IWWR/points.shp
+len(shapes)
+
+
+# In[16]:
+
+
+print(shapes)
 
 
 # In[17]:
 
 
-sfp = shapefile.Reader("/Users/ilka/Documents/Uni/Master/PIG/Daten/goose/White-fronted goose full year tracks 2006-2010 Alterra IWWR/points.shp")
+s = sf.shape(3)
 
 
 # In[18]:
+
+
+print(s)
+
+
+# In[19]:
+
+
+#/Users/ilka/Documents/Uni/Master/PIG/Daten/goose/White-fronted goose full year tracks 2006-2010 Alterra IWWR/points.shp
+
+
+# In[20]:
+
+
+sfp = shapefile.Reader("/Users/ilka/Documents/Uni/Master/PIG/Daten/goose/White-fronted goose full year tracks 2006-2010 Alterra IWWR/points.shp")
+
+
+# In[21]:
 
 
 with shapefile.Reader("/Users/ilka/Documents/Uni/Master/PIG/Daten/goose/White-fronted goose full year tracks 2006-2010 Alterra IWWR/lines.shp") as shp:
     print(shp)
 
 
-# In[19]:
+# In[22]:
 
 
 shapesP = sfp.shapes()
 
 
-# In[20]:
+# In[23]:
 
 
 len(shapesP)
 
 
-# In[21]:
+# In[24]:
 
 
 print(shapesP)
@@ -105,7 +105,7 @@ pip install dbfread
 from dbfread import DBF
 
 
-# In[28]:
+# In[27]:
 
 
 #/Users/ilka/Documents/Uni/Master/PIG/Daten/goose/White-fronted goose full year tracks 2006-2010 Alterra IWWR/points.dbf
@@ -115,19 +115,19 @@ for record in DBF('/Users/ilka/Documents/Uni/Master/PIG/Daten/goose/White-fronte
 
 # ## Only print coordinates
 
-# In[29]:
+# In[28]:
 
 
 table = DBF('/Users/ilka/Documents/Uni/Master/PIG/Daten/goose/White-fronted goose full year tracks 2006-2010 Alterra IWWR/points.dbf', load=True)
 
 
-# In[30]:
+# In[29]:
 
 
 print(table.records[1]['long'])
 
 
-# In[33]:
+# In[30]:
 
 
 for record in table:
@@ -135,7 +135,7 @@ for record in table:
     print(record['lat'])
 
 
-# In[34]:
+# In[31]:
 
 
 len(table)
@@ -143,20 +143,20 @@ len(table)
 
 # ## Saving Coordinates in a list
 
-# In[48]:
+# In[32]:
 
 
 list_of_coords = []
 
 
-# In[50]:
+# In[33]:
 
 
 for record in table:
     list_of_coords.append((record['lat'],record['long']))
 
 
-# In[51]:
+# In[34]:
 
 
 print(list_of_coords)
@@ -164,28 +164,91 @@ print(list_of_coords)
 
 # ## Calculating Boundig Box
 
-# In[39]:
+# In[116]:
 
 
-pip install planar
+import numpy
 
 
-# In[40]:
+# In[117]:
 
 
-from planar import BoundingBox
+print(list_of_coords[0][0])
 
 
-# In[53]:
+# In[118]:
 
 
-bbox = BoundingBox(list_of_coords)
+print(list_of_coords[0][1])
 
 
-# In[54]:
+# In[147]:
 
 
-print(bbox)
+min_coord_X=list_of_coords[0][0]
+min_coord_Y=list_of_coords[0][1]
+
+
+# In[148]:
+
+
+min_bounding_box=[]
+
+
+# ## Calculating bottom left point
+
+# In[149]:
+
+
+for coord in list_of_coords:
+    print(coord)
+    x=coord[0]
+    y=coord[1]
+    if x < min_coord_X and y < min_coord_Y:
+        min_coord_X=x
+        min_coord_Y=y
+min_bounding_box.append([min_coord_X, min_coord_Y])
+
+
+# In[150]:
+
+
+print(min_bounding_box)
+
+
+# ## Calculating bottom left point
+# 
+
+# In[155]:
+
+
+max_bounding_box=[]
+
+
+# In[156]:
+
+
+max_coord_X=list_of_coords[0][0]
+max_coord_Y=list_of_coords[0][1]
+
+
+# In[157]:
+
+
+for coord in list_of_coords:
+    print(coord)
+    x=coord[0]
+    y=coord[1]
+    if x > max_coord_X and y > max_coord_Y:
+        max_coord_X=x
+        max_coord_Y=y
+max_bounding_box.append([max_coord_X, max_coord_Y])
+
+
+# In[158]:
+
+
+print(max_bounding_box)
 
 
 # In[ ]:
