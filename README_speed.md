@@ -26,6 +26,8 @@
 **19.06.2020-Minor change (Jannis)**
  * Check existence of fields before adding new fields
 
+**25.06.2020- Calculate descriptive statistics of speed (Jannis)**
+ * Mean and standard deviation
 
 
 
