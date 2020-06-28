@@ -3,6 +3,8 @@ from qgis.core import *
 from qgis.gui import *
 import qgis.utils
 import numpy as np
+import tempfile
+import processing
 
 # load the point shapefile manually!
 
@@ -131,93 +133,33 @@ for m in range(0,len(L_tracks)):
     L_east.clear()
     L_ID.clear()
     L_distance.clear()
+######################################Statistics######################################################
 
-###########################################Calculate time difference########################################
+Statistics=processing.run("qgis:basicstatisticsforfields",{'INPUT_LAYER':point_layer, 'FIELD_NAME':'Distance',\
+'OUTPUT_HTML_FILE':'TEMPORARY_OUTPUT'})
+#print(Statistics)
+Mean = Statistics["MEAN"]
+STD = Statistics["STD_DEV"]
+variance= math.sqrt(STD)
 
-# Check if field already exists
-if point_layer.fields().indexFromName("TimeDiff") == -1:
-    #Create field to store TimeDifference
-    newColumn (point_layer,"TimeDiff", QVariant.Double)
+#Calculate the threshold value
+Threshold=Mean-3*variance
+#print(Threshold)
 
-#Create a list to store time values
-for m in range(0,len(L_tracks)):
-    L_Datetime=[]
-    L_ID=[]
-    L_TimeDiff=[]
+#Select features having distance less than threshold value
 
-    point_layer.selectByExpression(L_tracks[m], QgsVectorLayer.SetSelection)
-    selection = point_layer.selectedFeatures()
-    for feature in selection:
-        Datetime=feature['timestamp']
-        L_Datetime.append(Datetime)
-        L_ID.append(feature.id())
+point_layer.selectByExpression('"Distance"<8800.584858065236', QgsVectorLayer.SetSelection)
+selection = point_layer.selectedFeatures()
+iface.mapCanvas().setSelectionColor( QColor("red") )
 
 
-    #Calculate time between a point and its previous point
-    for j in range (0,(len(L_ID))):
-        if j==0:
-            TimeDiff=0
-            L_TimeDiff.append(TimeDiff)
-        else:
-            To_time=datetime.datetime.strptime(L_Datetime[j],'%Y-%m-%d %H:%M:%S')
-            From_time=datetime.datetime.strptime(L_Datetime[j-1],'%Y-%m-%d %H:%M:%S')
-            TimeDiff=To_time-From_time
+#Read selected feature IDs and save to a new list
+selected_fid = []
+# Get the first feature id from the layer
+for feature in selection:
+    selected_fid.append(feature.id())
 
-            value=TimeDiff.total_seconds()
-            L_TimeDiff.append(value)
-
-    # for check the values
-
-    #print(L_Datetime[0],L_TimeDiff[0])
-    #print(L_Datetime[1],L_TimeDiff[1])
-    #print(L_Datetime[2],L_TimeDiff[2])
-
-
-    #Update time difference to a new field
-
-    updates_timeDiff={}
-    for i in range (0,(len(L_TimeDiff))):
-        # Get the distance value from the gpx
-        TimeDiff=L_TimeDiff[i]
-        index=L_ID[i]
-
-        # Update the empty fields in the shapefile
-        indexTimeDiff=getIndex(point_layer,'TimeDiff')
-        updates_timeDiff[index] = {indexTimeDiff:TimeDiff}
-
-    point_layer.dataProvider().changeAttributeValues(updates_timeDiff)
-    # Update to propagate the changes
-    point_layer.updateFields()
-    point_layer.removeSelection()
-
-    L_Datetime.clear()
-    L_ID.clear()
-    L_TimeDiff.clear()
-
-##############################################Calculate speed##################################################
-
-# Check if field already exists
-if point_layer.fields().indexFromName("Speed") == -1:
-    #Create new field to store speed
-    newColumn (point_layer,"Speed", QVariant.Double)
-
-updates_speed={}
-for feat in point_layer.getFeatures():
-    a=feat['Distance']
-    b=feat['TimeDiff']
-
-    if (a==0 or b==0) :
-        speed=0
-    else:
-        speed=a/b/1000*3600
-    index=feat.id()
-
-    indexSpeed=getIndex(point_layer,'Speed')
-    updates_speed[index] = {indexSpeed:speed}
-
-point_layer.dataProvider().changeAttributeValues(updates_speed)
-point_layer.updateFields()
-point_layer.removeSelection()
+#Create an empty shapefile to copy only selected features
 
 
 print('Done')
