@@ -3,6 +3,7 @@ from qgis.core import *
 from qgis.gui import *
 import qgis.utils
 import numpy as np
+import statistics
 
 # load the point shapefile manually!
 
@@ -219,5 +220,20 @@ point_layer.dataProvider().changeAttributeValues(updates_speed)
 point_layer.updateFields()
 point_layer.removeSelection()
 
+# Function for calculating basic statistics of the speed field
+def descriptiveStatisticsSpeed(layer):
+    features = layer.getFeatures()
+    list_speed = []
+    # Iterate over features and add to a list
+    for feature in features:
+        list_speed.append(feature['Speed'])
+    # calculate mean
+    mean_speed = statistics.mean(list_speed)
+    print("Average speed: {} km/h".format(mean_speed)) # I suggest that we use the mean as a threshold, because it is simple and gives quite good results
+    # calculate sd
+    sd_speed = statistics.stdev(list_speed)
+    print("Standard deviation of speed: {} km/h".format(sd_speed))
+    
+descriptiveStatisticsSpeed(point_layer)
 
 print('Done')
