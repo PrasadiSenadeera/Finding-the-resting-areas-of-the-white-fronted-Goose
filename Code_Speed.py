@@ -221,6 +221,7 @@ point_layer.updateFields()
 point_layer.removeSelection()
 
 # Function for calculating basic statistics of the speed field
+# @return Median, because it splits the data equally into two groups
 def descriptiveStatisticsSpeed(layer):
     features = layer.getFeatures()
     list_speed = []
@@ -229,11 +230,36 @@ def descriptiveStatisticsSpeed(layer):
         list_speed.append(feature['Speed'])
     # calculate mean
     mean_speed = statistics.mean(list_speed)
-    print("Average speed: {} km/h".format(mean_speed)) # I suggest that we use the mean as a threshold, because it is simple and gives quite good results
+    print("Average speed: {} km/h".format(mean_speed))
+    # calculate median
+    median_speed = statistics.mean(list_speed)
+    print("Median of speed: {} km/h".format(median_speed))
     # calculate sd
     sd_speed = statistics.stdev(list_speed)
     print("Standard deviation of speed: {} km/h".format(sd_speed))
-    
-descriptiveStatisticsSpeed(point_layer)
+    # calculate Variance
+    var_speed = statistics.variance(list_speed)
+    print("Variance of speed: {} km/h".format(var_speed))
+    return median_speed
 
+# Function for selecting points with speed value below a specified Threshold
+# Creates new shapefile for selected points.
+def extractSlowPoints(layer, threshold):
+    # Feature selection using a threshold for speed
+    layer.selectByExpression( "\"Speed\"< {}".format(threshold))
+    print("Selection based on this value: {} km/h".format(threshold))
+    selection = layer.selectedFeatures()
+    # mark selection red in map
+    iface.mapCanvas().setSelectionColor( QColor("red") )
+    # specify filename
+    dir = os.path.join(os.getcwd(),'data','movebank','goose','lowSpeed')
+    if(os.path.isdir(dir)):
+        fn = os.path.join(dir,'lowSpeed.shp')
+        writer = QgsVectorFileWriter.writeAsVectorFormat(layer, fn, 'utf-8', driverName='ESRI Shapefile', onlySelected=True)
+        selected_layer = iface.addVectorLayer(fn, '', 'ogr')
+        del(writer)
+    else:
+        print("No shapefile created: Please specify a correct directory!")
+
+extractSlowPoints(point_layer,descriptiveStatisticsSpeed(point_layer))
 print('Done')
