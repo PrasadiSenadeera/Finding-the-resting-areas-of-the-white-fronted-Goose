@@ -20,14 +20,16 @@
  * Update to propagate the changes
  * Clear lists before next iteration
  
-**16.06.2020-Calculate speed ( Feel free to use your own code)**
+**16.06.2020 - Calculate speed ( Feel free to use your own code)**
  * Calculate time difference and speed
  
-**19.06.2020-Minor change (Jannis)**
+**19.06.2020 - Minor change (Jannis)**
  * Check existence of fields before adding new fields
 
-**25.06.2020- Calculate descriptive statistics of speed (Jannis)**
+**25.06.2020 - Calculate descriptive statistics of speed (Jannis)**
  * Mean and standard deviation
 
-
-
+**25.06.2020 - Extract values based on speed (Jannis)**
+ * Add computation of median value
+ * Select points with speed value below median
+ * Create new shapefile containing just low speed points
