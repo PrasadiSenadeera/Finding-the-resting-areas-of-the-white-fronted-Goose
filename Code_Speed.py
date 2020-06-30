@@ -252,7 +252,7 @@ def extractSlowPoints(layer, threshold):
     # mark selection red in map
     iface.mapCanvas().setSelectionColor( QColor("red") )
     # specify filename
-    dir = os.path.join(os.getcwd(),'data','movebank','goose','lowSpeed')
+    dir = os.path.join(os.getcwd())
     if(os.path.isdir(dir)):
         fn = os.path.join(dir,'lowSpeed.shp')
         writer = QgsVectorFileWriter.writeAsVectorFormat(layer, fn, 'utf-8', driverName='ESRI Shapefile', onlySelected=True)
