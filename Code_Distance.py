@@ -5,6 +5,7 @@ import qgis.utils
 import numpy as np
 import tempfile
 import processing
+import statistics
 
 # load the point shapefile manually!
 
@@ -133,33 +134,35 @@ for m in range(0,len(L_tracks)):
     L_east.clear()
     L_ID.clear()
     L_distance.clear()
-######################################Statistics######################################################
+###################################### Calculate Statistics and threshold value ######################################################
 
-Statistics=processing.run("qgis:basicstatisticsforfields",{'INPUT_LAYER':point_layer, 'FIELD_NAME':'Distance',\
-'OUTPUT_HTML_FILE':'TEMPORARY_OUTPUT'})
-#print(Statistics)
-Mean = Statistics["MEAN"]
-STD = Statistics["STD_DEV"]
-variance= math.sqrt(STD)
+def Statistics(layer):
+    Statistics=processing.run("qgis:basicstatisticsforfields",{'INPUT_LAYER':point_layer, 'FIELD_NAME':'Distance',\
+    'OUTPUT_HTML_FILE':'TEMPORARY_OUTPUT'})
+    Mean = Statistics["MEAN"]
+    STD = Statistics["STD_DEV"]
+    variance= math.sqrt(STD)
 
-#Calculate the threshold value
-Threshold=Mean-3*variance
-#print(Threshold)
+    #Calculate the threshold value
+    Threshold=Mean-3*variance
+    print(Threshold)
+    return Threshold
 
-#Select features having distance less than threshold value
+Threshold=Statistics(point_layer)
+#Extract points and save to a new shapefile.
+def extractPoints(layer, Threshold):
+    Selected_layer=layer.selectByExpression('"Distance"<{}'.format(Threshold), QgsVectorLayer.SetSelection)
+    selection = layer.selectedFeatures()
+    iface.mapCanvas().setSelectionColor( QColor("red") )
+    dir = os.path.join(os.getcwd())
+    if(os.path.isdir(dir)):
+        fn = os.path.join(dir,'lowDistance.shp')
+        writer = QgsVectorFileWriter.writeAsVectorFormat(layer, fn, 'utf-8', driverName='ESRI Shapefile', onlySelected=True)
+        selected_layer = iface.addVectorLayer(fn, '', 'ogr')
+        del(writer)
+    else:
+        print("No shapefile created: Please specify a correct directory!")
 
-point_layer.selectByExpression('"Distance"<8800.584858065236', QgsVectorLayer.SetSelection)
-selection = point_layer.selectedFeatures()
-iface.mapCanvas().setSelectionColor( QColor("red") )
-
-
-#Read selected feature IDs and save to a new list
-selected_fid = []
-# Get the first feature id from the layer
-for feature in selection:
-    selected_fid.append(feature.id())
-
-#Create an empty shapefile to copy only selected features
-
+extractPoints(point_layer, Threshold)
 
 print('Done')
