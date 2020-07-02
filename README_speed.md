@@ -20,7 +20,7 @@
  * Update to propagate the changes
  * Clear lists before next iteration
  
-**16.06.2020 - Calculate speed ( Feel free to use your own code)**
+**16.06.2020 - Calculate speed (Prasadi)**
  * Calculate time difference and speed
  
 **19.06.2020 - Minor change (Jannis)**
