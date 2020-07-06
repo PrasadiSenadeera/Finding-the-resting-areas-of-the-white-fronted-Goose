@@ -24,7 +24,8 @@
  * Check existence of fields before adding new fields
 
 **02.07.2020 - Calculate descriptive statistics of Distance and threshold (Prasadi)**
- * Threshold=Mean-3*STD
+ * Threshold=Mean-3STD
+ 
 **02.07.2020 - Extract values based on Distance (Prasadi)**
 
 **Create new shapefile containing just low distance points (Jannis)**
