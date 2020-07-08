@@ -1,2 +1,1 @@
-**Link containing the landuse dataset from ESA CCI (Format: GTiff):**
-[Sciebo](https://uni-muenster.sciebo.de/s/PqSHx2ntrNMkWjf) 
+**This [Link](https://uni-muenster.sciebo.de/s/PqSHx2ntrNMkWjf) contains the landuse dataset from [ESA CCI](http://maps.elie.ucl.ac.be/CCI/viewer/download.php) in GTiff format**
