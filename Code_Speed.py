@@ -1,9 +1,11 @@
-import os, ogr, osr, datetime, math, gdal, time
+import os, ogr, datetime, math, time
 from qgis.core import *
 from qgis.gui import *
 import qgis.utils
 import numpy as np
+from matplotlib import pyplot as plt
 import statistics
+
 
 # load the point shapefile manually!
 
@@ -240,6 +242,14 @@ def descriptiveStatisticsSpeed(layer):
     # calculate Variance
     var_speed = statistics.variance(list_speed)
     print("Variance of speed: {} km/h".format(var_speed))
+    # Create histogram
+    plt.hist(list_speed,bins = 2500, facecolor = 'g')
+    plt.xlim(0,5)
+    plt.xlabel('Speed in km/h')
+    plt.ylabel('Frequency')
+    plt.title('Histogram of speed values')
+    plt.grid(True)
+    plt.show()
     return median_speed
 
 # Function for selecting points with speed value below a specified Threshold
@@ -262,4 +272,5 @@ def extractSlowPoints(layer, threshold):
         print("No shapefile created: Please specify a correct directory!")
 
 extractSlowPoints(point_layer,descriptiveStatisticsSpeed(point_layer))
+
 print('Done')
