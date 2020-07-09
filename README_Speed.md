@@ -35,3 +35,5 @@
  * Create new shapefile containing just low speed points
 
 **08.07.2020 - Add link to landuse dataset in data folder (Jannis)**
+
+**09.07.2020 - Histogram of speed values (Jannis)**
