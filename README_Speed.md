@@ -2,7 +2,7 @@
 
 ## Please update this if you change to the code.
 
-### To use this code, manually load the shapefile into the QGIS interface
+### To use this code, manually load the shapefile into the QGIS interface and specify an output path for the new shapefile
 
 ### This code includes,
 **13.06.2020 - Create two new fields with date and time (Prasadi)**
@@ -37,3 +37,8 @@
 **08.07.2020 - Add link to landuse dataset in data folder (Jannis)**
 
 **09.07.2020 - Histogram of speed values (Jannis)**
+
+**10.07.2020 - Improve coding style (Jannis)**
+ * Changed structure: more functions
+ * Improved commenting (Added docstrings)
+ * Simplified specification of output path
