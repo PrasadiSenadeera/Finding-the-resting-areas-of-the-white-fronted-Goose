@@ -9,3 +9,9 @@
 - Function for a first plot of landuse distribution
 - Function containing preprocess of landuse legend
 - First try on converting landuse nr to landuse label (Doesn't work yet)
+
+**10.07.2020 - Add Label and improving plots (Jannis)**
+- Conversion of float landuse identifier to int (new field)
+- Conversion of int landuse identifier using legend to label (new field, String)
+- Improved histogram plot
+- Created pie chart of landuses
