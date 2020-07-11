@@ -12,6 +12,7 @@ import statistics
 
 # This code computes and plots the speed of the goose per datapoint
 # After that it splits the data based on a threshold into resting and flying points
+
 def newColumn (layer,FieldName,DataType):
     """
     Adds a new field to the layer.
@@ -30,7 +31,6 @@ def newColumn (layer,FieldName,DataType):
         layer.updateFields()
     else:
         print("Field \"{}\" already exists.".format(FieldName))
-
 
 def addTimeAndDateObs(layer):
     """
@@ -255,6 +255,7 @@ def extractSlowPoints(layer, threshold,outfn):
         Parameters:
             layer: QGIS layer object
             threshold (double): Speed value determining the split
+            outfn(String): path to new shapefile
     """
     # Feature selection using a threshold for speed
     layer.selectByExpression( "\"Speed\"< {}".format(threshold))
@@ -273,12 +274,12 @@ def main():
     Main function calling the other functions.
     """
     # IMPORTANT: Specify a path to the new shapefile!
-    out_path = os.path.join("C:\\","Users","janni","OneDrive","Desktop","data")
+    data_dir = os.path.join("C:\\","Users","janni","OneDrive","Desktop","data")
 
     #Store route identification codes in to a list
     L_tracks=['"tag_ident"=72413','"tag_ident"=72417','"tag_ident"=73053','"tag_ident"=72364',\
     '"tag_ident"=73054','"tag_ident"=79694','"tag_ident"=79698']
-    if(os.path.isdir(out_path)):
+    if(os.path.isdir(data_dir)):
         print("Very good! You have chosen a valid directory!")
         # load the point shapefile of the white-fronted goose manually!
         # access the active layer
@@ -299,9 +300,10 @@ def main():
             calcSpeed(point_layer)
             print("-----------4-------------finished!")
             # 5
-            extractSlowPoints(point_layer,descriptiveStatisticsSpeed(point_layer),out_path)
+            extractSlowPoints(point_layer,descriptiveStatisticsSpeed(point_layer),data_dir)
             print("-----------5-------------finished!")
             print('Done')
     else:
+        iface.messageBar().pushMessage("Error", "The directory does not exist. Please change data_dir in the code",level = 1)
         print("Please specify a valid directory in the main function of Code_Speed.py!")
 main()
