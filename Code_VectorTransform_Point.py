@@ -5,16 +5,17 @@ import osr
 
 ################################################## PATHS
 # Step 1.1: Create a data directory
-data_dir = os.path.join(r'C:\Users\Elle\OneDrive - NOVAIMS\GIS_WWU\Python in GIS')
+#data_dir = os.path.join(r'C:\Users\Elle\OneDrive - NOVAIMS\GIS_WWU\Python in GIS')
+data_dir = os.path.join("C:\\","Users","janni","OneDrive","Desktop","data")
 
 # Step 1.2: Create a path to goose track shapefile
-in_vect = os.path.join(data_dir, 'Final Project', 'movebank', 'points.shp')
+in_vect = os.path.join(data_dir, 'points.shp')
 
 # Step 1.3: Create a path to land cover raster file
-in_rast = os.path.join(data_dir, 'Final Project', 'Eurasia_LC_processed', 'Eurasia_Landcover.tif')
+in_rast = os.path.join(data_dir, 'Eurasia_Landcover.tif')
 
 # Step 1.4: Create a path to an empty vector output file
-out_vect = os.path.join(data_dir, 'Final Project', 'Transformed_Vector', 'transform_point.shp')
+out_vect = os.path.join(data_dir, 'transform_point.shp')
 
 ################################################## OPEN SOURCES - RASTER AND VECTOR + PRINT SPATIAL REFERENCE
 # Step 2.1: Open the raster data source in Python3 and print its spatial reference information

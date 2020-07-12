@@ -240,8 +240,8 @@ def descriptiveStatisticsSpeed(layer):
     var_speed = statistics.variance(list_speed)
     print("Variance of speed: {} km/h".format(var_speed))
     # Create histogram
-    plt.hist(list_speed,bins = 2500, facecolor = 'g')
-    plt.xlim(0,5)
+    plt.hist(list_speed,bins = 6500, facecolor = 'g')
+    plt.xlim(0,1)
     plt.xlabel('Speed in km/h')
     plt.ylabel('Frequency')
     plt.title('Histogram of speed values')
