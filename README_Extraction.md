@@ -19,3 +19,7 @@
 **11.07.2020 - Improve coding style (Jannis)**
 - add docstrings
 - changed structure
+
+**12.07.2020 - Changed landuse raster (Jannis)**
+- add csv legend to data folder
+- added plots in plot folder
