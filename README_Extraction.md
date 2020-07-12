@@ -1,5 +1,6 @@
 ## Migratory patterns of white-fronted goose in northern Europe
 ## Please update this if you change to the code.
+## This code adds landuse information to the point shapefile and plots results
 
 ### To use this code, manually load the shapefile into the QGIS interface and specify data_dir to a folder containing 1) landuse geotiff, 2) landuse legend and 3) lowSpeed.shp (created by running Code_Speed.py) and for whatever reason you have to run it twice.
 
@@ -19,3 +20,7 @@
 **11.07.2020 - Improve coding style (Jannis)**
 - add docstrings
 - changed structure
+
+**12.07.2020 - Changed landuse raster (Jannis)**
+- add csv legend to data folder
+- added plots in plot folder
