@@ -39,17 +39,17 @@ def preProcessLegend(filename):
     # empty list for the landuse legend
     results = []
     # read csv file
-    with open(filename) as csvfile:
+    with open(filename, newline = '', encoding='utf-8-sig') as csvfile:
         reader = csv.reader(csvfile,delimiter=';')
         for row in reader: # each row is a list
             results.append(row)
     # deletes columns we don't need (spectral bands)
-    for row in results:
+    """for row in results:
         del row[4]
         del row[3]
         del row[2]
     # delete first row which labels the columns
-    results.pop(0)
+    results.pop(0)"""
     return results
 
 def convertIdFloatToInt(shapelayer):
@@ -99,18 +99,20 @@ def convertIdToName(mylegend, shapelayer):
     luINTFieldID = shapelayer.fields().indexFromName("LUNrInt")
     # Initiate a variable to hold the attribute values
     updates = {}
+    i = 0
     # iterate over features
     for feat in features:
         luNameFieldID = shapelayer.fields().indexFromName("Landuse")
         intLU = feat[luINTFieldID]
         stringLU = "NOT FOUND"
         for row in mylegend:
-            if(intLU==int(row[0])):
+            luID = row[0]
+            #print("{} is a string! And will be converted to :{}".format(luID, int(luID)))
+            if(intLU==int(luID)):
                 stringLU = row[1]
-                #print("YUHUU! FOUND: {}".format(row[1]))
                 break
+                #print("YUHUU! FOUND: {}".format(row[1]))
         updates[feat.id()] = {luNameFieldID: stringLU}
-    #print(updates)
     # Use the created dictionary to update the field for all features
     shapelayer.dataProvider().changeAttributeValues(updates)
     # Update to propagate the changes
@@ -144,8 +146,6 @@ def plotLandUse(layer, x):
         plt.subplots_adjust(bottom = 0.45)
         plt.show()
 
-    # @see: https://stackoverflow.com/questions/25950695/how-to-generate-pie-chart-using-dict-values-in-python-3-4
-    # @see: https://pythontic.com/visualization/charts/piechart
     # Create Piechart autopct='%1.2f',lambda pct: func(pct, data)
     elif(x=="Pie"):
         counts = Counter(list_lu)
@@ -156,7 +156,7 @@ def plotLandUse(layer, x):
         wedges, texts, autotexts = ax.pie(data, labels=None,autopct='%1.2f')
         ax.legend(wedges, keys, title = "Landuse types", loc="left", bbox_to_anchor=(1, 0.8))
         #plt.setp(autotexts)
-        ax.set_title("Landuses: A pie")
+        ax.set_title("Landuses resting points (Threshold: Speed < Median)")
         fig.subplots_adjust(left=0.0125)
         plt.show()
 
@@ -176,10 +176,10 @@ def main():
             print("Shape file failed to load!")
         else:
             # fn of landuse raster
-            raster_fn = os.path.join(data_dir,"ESACCI-LC-L4-LCCS-Map-300m-P1Y-2015-v2.0.7.tif")
+            raster_fn = os.path.join(data_dir,"Eurasia_Landcover.tif")
             # rlayer = iface.addRasterLayer(raster_fn, 'Landuse')
             # specify path to legend of landuse
-            landuse_legend_fn = os.path.join(data_dir,'ESACCI-LC-Legend.csv')
+            landuse_legend_fn = os.path.join(data_dir,'Eurasia_Landcover_Legend.csv')
 
             # fn of the resting points shapefile
             in_shape_fn = os.path.join(data_dir,"lowSpeed.shp")
