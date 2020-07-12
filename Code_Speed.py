@@ -274,7 +274,7 @@ def main():
     Main function calling the other functions.
     """
     # IMPORTANT: Specify a path to the new shapefile!
-    data_dir = os.path.join("C:\\","Users","janni","OneDrive","Desktop","data")
+    data_dir = os.path.join("F:\\","Master","Semester 2","Academic","Python","Project output")
 
     #Store route identification codes in to a list
     L_tracks=['"tag_ident"=72413','"tag_ident"=72417','"tag_ident"=73053','"tag_ident"=72364',\
