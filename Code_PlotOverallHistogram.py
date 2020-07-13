@@ -63,7 +63,7 @@ def plotList(list):
     values = counts.values()
     fig, ax = plt.subplots()
     data = [float(v) for v in values]
-    wedges, texts= ax.pie(data, labels=None,autopct=None)
+    wedges, texts, autotexts= ax.pie(data, labels=None,autopct='%1.2f')
     ax.legend(wedges, keys, title = "Landuse types", loc="right",bbox_to_anchor=(1.6,0.5))
     ax.set_title("Landuses overall")
     plt.show()
