@@ -5,6 +5,9 @@
 ### To use this code, first apply Code_RasterClip.py on Eurasia_Landcover.tif and then specify data_dir to a folder containing clipped landuse geotiff
 
 ### This code includes,
-**13.07.2020 - Plot overall landuses**
+**13.07.2020 - Plot overall landuses (Jannis)**
 * extract raster values and convert them to list
 * plot pie chart
+
+**19.07.2020 Changed colours of pie chart (Jannis)**
+ * Unification
