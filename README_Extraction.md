@@ -24,3 +24,6 @@
 **12.07.2020 - Changed landuse raster (Jannis)**
 - add csv legend to data folder
 - added plots in plot folder
+
+**19.07.2020 Changed colours of pie chart (Jannis)**
+ * Unification
