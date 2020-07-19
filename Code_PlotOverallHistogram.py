@@ -7,10 +7,6 @@ import numpy as np
 import csv
 from collections import Counter
 import gdal
-# import rasterio as rio
-# from rasterio.plot import plotting_extent
-# import earthpy as et
-# import earthpy.plot as ep
 
 def preProcessLegend(filename):
     """
@@ -50,6 +46,7 @@ def rasterToList(ds, legend):
             if(i == int(row[0])):
                 results.append(row[1])
                 break
+    results.sort()
     return results
 
 def plotList(list):
@@ -61,9 +58,12 @@ def plotList(list):
     counts = Counter(list)
     keys = counts.keys()
     values = counts.values()
+    colours = ["goldenrod","navajowhite","yellowgreen","darkgoldenrod","forestgreen",
+        "darkgreen","olive","limegreen","lime","lightseagreen", "cyan", "green","coral",
+        "gold","olivedrab","snow","black", "blue","darkseagreen","lightskyblue"]
     fig, ax = plt.subplots()
     data = [float(v) for v in values]
-    wedges, texts, autotexts= ax.pie(data, labels=None,autopct='%1.2f')
+    wedges, texts, autotexts= ax.pie(data, labels=None,autopct='%1.2f',colors = colours)
     ax.legend(wedges, keys, title = "Landuse types", loc="right",bbox_to_anchor=(1.6,0.5))
     ax.set_title("Landuses overall")
     plt.show()

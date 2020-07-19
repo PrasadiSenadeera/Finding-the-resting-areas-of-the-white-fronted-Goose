@@ -222,7 +222,7 @@ def extractPoints(layer,Threshold,dir):
         selected_layer = iface.addVectorLayer(fn, '', 'ogr')
         del(writer)
     else:
-        print("No shapefile created: Please specify a correct directory!")  
+        print("No shapefile created: Please specify a correct directory!")
 
 
 def preProcessLegend(filename):
@@ -240,13 +240,6 @@ def preProcessLegend(filename):
         reader = csv.reader(csvfile,delimiter=';')
         for row in reader: # each row is a list
             results.append(row)
-    # deletes columns we don't need (spectral bands)
-    """for row in results:
-        del row[4]
-        del row[3]
-        del row[2]
-    # delete first row which labels the columns
-    results.pop(0)"""
     return results
 
 
@@ -330,6 +323,8 @@ def plotLandUse(layer, x):
     # Iterate over features and add to a list
     for feature in features:
         list_lu.append(feature['Landuse'])
+
+    list_lu.sort()
     # bins of the landuse numbers
     # bins = [10,11,30, 60, 70,90, 100,110,120,122,130,140,150,152,160,180,210]
     if(x=="Hist"):
@@ -349,9 +344,13 @@ def plotLandUse(layer, x):
         counts = Counter(list_lu)
         keys = counts.keys()
         values = counts.values()
+        colours = ["goldenrod","navajowhite","yellowgreen","darkgoldenrod",
+            "forestgreen","olive","limegreen","lime", "green","coral","gold",
+            "olivedrab","black", "blue","darkseagreen","lightskyblue"]
+
         fig, ax = plt.subplots()
         data = [float(v) for v in values]
-        wedges, texts, autotexts = ax.pie(data, labels=None,autopct='%1.2f')
+        wedges, texts, autotexts = ax.pie(data, labels=None,autopct='%1.2f', colors = colours)
         ax.legend(wedges, keys, title = "Landuse types", loc="left", bbox_to_anchor=(1, 0.8))
         #plt.setp(autotexts)
         ax.set_title("Landuses resting points (Threshold: Distance < [Mean-Variance])")
@@ -363,8 +362,7 @@ def main():
     Main function calling the other functions.
     """
     # IMPORTANT: Specify a path to the new shapefile!
-    data_dir = os.path.join("F:\\","Master","Semester 2","Academic","Python","Project output")
-    
+    data_dir = os.path.join("C:\\","Users","janni","OneDrive","Desktop","data")
 
     #Store route identification codes in to a list
     L_tracks=['"tag_ident"=72413','"tag_ident"=72417','"tag_ident"=73053','"tag_ident"=72364',\
@@ -394,7 +392,7 @@ def main():
             in_shape_fn = os.path.join(data_dir,"lowDistance.shp")
             out_shape_fn = os.path.join(data_dir,"lowDistanceLanduseID.shp")
 
-    
+
         if(QgsProject.instance().mapLayersByName('lowDistanceLanduseID')==[]):
             processing.run("qgis:rastersampling",
             {'COLUMN_PREFIX' : 'LanduseNr_',
@@ -417,4 +415,4 @@ def main():
     else:
         iface.messageBar().pushMessage("Error", "The directory does not exist. Please change data_dir in the code",level = 1)
         print("Please specify a valid directory in the main function of Code_Distance.py!")
-main()       
+main()

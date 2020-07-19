@@ -132,6 +132,7 @@ def plotLandUse(layer, x):
     # Iterate over features and add to a list
     for feature in features:
         list_lu.append(feature['Landuse'])
+    list_lu.sort()
     # bins of the landuse numbers
     # bins = [10,11,30, 60, 70,90, 100,110,120,122,130,140,150,152,160,180,210]
     if(x=="Hist"):
@@ -151,9 +152,13 @@ def plotLandUse(layer, x):
         counts = Counter(list_lu)
         keys = counts.keys()
         values = counts.values()
+        colours = ["goldenrod","navajowhite","yellowgreen","darkgoldenrod",
+            "forestgreen","olive","limegreen","lime", "green","coral","gold",
+            "olivedrab","black", "blue","darkseagreen","lightskyblue"]
+
         fig, ax = plt.subplots()
         data = [float(v) for v in values]
-        wedges, texts, autotexts = ax.pie(data, labels=None,autopct='%1.2f')
+        wedges, texts, autotexts = ax.pie(data, labels=None,autopct='%1.2f', colors = colours)
         ax.legend(wedges, keys, title = "Landuse types", loc="left", bbox_to_anchor=(1, 0.8))
         #plt.setp(autotexts)
         ax.set_title("Landuses resting points (Threshold: Speed < Median)")
