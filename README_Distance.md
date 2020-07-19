@@ -34,3 +34,6 @@
 
 **Show results using a Pie chart and a Histogram (Prasadi)**
 
+**19.07.2020 Changed colours of pie chart (Jannis)**
+ * Unification
+
