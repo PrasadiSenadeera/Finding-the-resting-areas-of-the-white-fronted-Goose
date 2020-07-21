@@ -3,6 +3,11 @@ import ogr
 import os
 import osr
 
+from qgis.core import *
+from qgis.gui import *
+import qgis.utils
+
+
 ################################################## PATHS
 # Step 1.1: Create a data directory
 data_dir = os.path.join("C:\\","Users","janni","OneDrive","Desktop","data")
@@ -93,4 +98,5 @@ for in_feat in vect_layer:
 # Step 6.1: Delete output data source *to ensure multiple outputs are not produced so errors are avoid*
 del out_data_source
 
+iface.addVectorLayer(out_vect, '', 'ogr')
 print('Job finished!')
