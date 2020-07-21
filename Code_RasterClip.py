@@ -5,20 +5,22 @@ import osr
 
 ################################################## DATA DIRECTORY, PATHS AND EMPTY OUTPUT FILE
 # Step 1.1: Create a data directory
-data_dir = os.path.join(r'C:\Users\Elle\OneDrive - NOVAIMS\GIS_WWU\Python in GIS')
+data_dir = os.path.join("C:\\","Users","janni","OneDrive","Desktop","data")
 
 # Step 1.2: Create a path to goose track shapefile
-in_vect = os.path.join(data_dir, 'Final Project', 'movebank', 'lines.shp')
+in_vect = os.path.join(data_dir, 'transform_point.shp')
 
 # Step 1.3: Create a path to land cover raster file
-in_rast = os.path.join(data_dir, 'Final Project', 'Eurasia_LC_processed', 'Eurasia_Landcover.tif')
+in_rast = os.path.join(data_dir, 'Eurasia_Landcover.tif')
 
 # Step 1.4: Create a path to an empty raster output file
-out_rast = os.path.join(data_dir, 'Final Project', 'Eurasia_LC_processed', 'clipped_Eurasia_Landcover.tif')
+out_rast = os.path.join(data_dir, 'clipped_Eurasia_Landcover.tif')
 
 ################################################## OPEN RASTER AND TRANSLATE COORDINATES TO RASTER INDICES
 # Step 2.1: Open the raster file
 rast_ds = gdal.Open(in_rast)
+
+print("Projection of Raster dataset: {}".format(rast_ds.GetProjection()))
 
 # Step 2.2: Translate coordinates to raster indices
 geoTrans = rast_ds.GetGeoTransform()
@@ -46,6 +48,8 @@ else:
 
 extent = shape_layer.GetExtent()
 print('The shape layer extent is: ', extent)
+
+print("Projection of Vector dataset: {}".format(shape_layer.GetSpatialRef()))
 
 ################################################## DETERMINE BUFFER SIZE AND COORDINATES FOR CLIP
 # Step 4.1: Decide on the size of the buffer around the track

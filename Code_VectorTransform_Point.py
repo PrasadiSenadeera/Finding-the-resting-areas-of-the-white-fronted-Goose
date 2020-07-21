@@ -5,7 +5,6 @@ import osr
 
 ################################################## PATHS
 # Step 1.1: Create a data directory
-#data_dir = os.path.join(r'C:\Users\Elle\OneDrive - NOVAIMS\GIS_WWU\Python in GIS')
 data_dir = os.path.join("C:\\","Users","janni","OneDrive","Desktop","data")
 
 # Step 1.2: Create a path to goose track shapefile
