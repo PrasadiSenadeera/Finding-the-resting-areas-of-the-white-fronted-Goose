@@ -219,7 +219,7 @@ def descriptiveStatisticsSpeed(layer):
         Parameters:
             layer: QGIS layer object
         Returns:
-            Median
+            mean_spead(float): Mean speed of goose
     """
 
     features = layer.getFeatures()
@@ -231,7 +231,7 @@ def descriptiveStatisticsSpeed(layer):
     mean_speed = statistics.mean(list_speed)
     print("Average speed: {} km/h".format(mean_speed))
     # calculate median
-    median_speed = statistics.mean(list_speed)
+    median_speed = statistics.median(list_speed)
     print("Median of speed: {} km/h".format(median_speed))
     # calculate sd
     sd_speed = statistics.stdev(list_speed)
@@ -247,7 +247,7 @@ def descriptiveStatisticsSpeed(layer):
     plt.title('Histogram of speed values')
     plt.grid(True)
     plt.show()
-    return median_speed
+    return mean_speed
 
 def extractSlowPoints(layer, threshold,outfn):
     """
@@ -274,7 +274,7 @@ def main():
     Main function calling the other functions.
     """
     # IMPORTANT: Specify a path to the new shapefile!
-    data_dir = os.path.join("F:\\","Master","Semester 2","Academic","Python","Project output")
+    data_dir = os.path.join("C:\\","Users","janni","OneDrive","Desktop","data")
 
     #Store route identification codes in to a list
     L_tracks=['"tag_ident"=72413','"tag_ident"=72417','"tag_ident"=73053','"tag_ident"=72364',\

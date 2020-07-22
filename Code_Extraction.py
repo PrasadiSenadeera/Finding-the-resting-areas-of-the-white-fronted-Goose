@@ -141,7 +141,7 @@ def plotLandUse(layer, x):
         plt.xlabel('Landuse type')
         plt.xticks(rotation = "vertical", size = "x-small", stretch =  'condensed')
         plt.ylabel('Frequency')
-        plt.title('Histogram of landuses - resting points (speed below median)')
+        plt.title('Histogram of landuses - resting points (speed below mean)')
         plt.grid(True)
         plt.tight_layout()
         plt.subplots_adjust(bottom = 0.45)
@@ -161,7 +161,7 @@ def plotLandUse(layer, x):
         wedges, texts, autotexts = ax.pie(data, labels=None,autopct='%1.2f', colors = colours)
         ax.legend(wedges, keys, title = "Landuse types", loc="left", bbox_to_anchor=(1, 0.8))
         #plt.setp(autotexts)
-        ax.set_title("Landuses resting points (Threshold: Speed < Median)")
+        ax.set_title("Landuses resting points (Threshold: Speed < Mean)")
         fig.subplots_adjust(left=0.0125)
         plt.show()
 
